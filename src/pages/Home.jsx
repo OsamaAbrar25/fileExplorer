@@ -1,36 +1,89 @@
 import React from 'react'
+import { useState } from 'react';
+import Navbar from '../components/Navbar';
 import bucket from '../img/bucket.png'
+import { useAddBucketMutation, useDeleteBucketMutation, useGetBucketQuery } from '../services/convinApi'
 
 const Home = () => {
+
+  const { data, error, isLoading } = useGetBucketQuery();
+  const [addBucket] = useAddBucketMutation();
+  const [deleteBucket] = useDeleteBucketMutation();
+
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [checkedData, setCheckedData] = useState([]);
+  let inputData;
+
+  const handleCreateBucket = () => {
+      // setInputData(event.target.value);
+      setIsOpen(!isOpen);
+  }
+
+  const handleChange = (event) => {
+    inputData = event.target.value
+    console.log(inputData);
+
+
+  }
+
+  const handleSubmitBucket = () => {
+      addBucket({name: `${inputData}`});
+      setIsOpen(!isOpen);
+
+  }
+
+  const handleDeleteBucket = () => {
+      checkedData?.map((id) => deleteBucket({id}));
+      
+  }
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    if(checked) {
+      setCheckedData([...checkedData, value]);
+    } else {
+      setCheckedData(checkedData.filter((e) => e !== value));
+    }
+    console.log(checkedData);
+
+  }
+
   return (
     <div className='w-screen h-screen'>
+        <Navbar/>
           
         <div className='m-10 flex gap-20 h-[calc(100vh-100px)] items-start'>
             
-            <div className='border-2 border-stone-600 rounded-md p-5 h-max w-max flex flex-col'>
-                  <div className='p-5'>Create a bucket</div>
-                  <div className='p-5'>Delete a bucket</div>
-                  <div className='p-5'>Create a file</div>
-                  <div className='p-5'>Delete a file</div>
 
-            </div>
+            <ul className="menu bg-base-100 w-56 p-2 rounded-box border-2">
+              <li className="menu-title">
+                <span>Bucket</span>
+              </li>
+              <li onClick={handleCreateBucket}><a>Create</a></li>
+              { isOpen &&
+              <>
+              <input type="text" placeholder="Enter bucket name" onChange={handleChange} className="input input-bordered input-primary w-full max-w-xs my-2" />
+              <button className="btn btn-primary" onClick={handleSubmitBucket}>Click to create</button>
+              </>
+              }
+              <li onClick={handleDeleteBucket}><a>Delete</a></li>
+              <li className="menu-title">
+                <span>File</span>
+              </li>
+              <li><a>Create</a></li>
+              <li><a>Delete</a></li>
+            </ul>
+
             <div className="form-control flex flex-row gap-20 flex-wrap m-10">
+                {data && data?.map(items => 
+                <label key={items.id} className="label cursor-pointer flex flex-col">
+                    <img src={bucket} alt="" className='label-text w-14' />
+                    <p className='w-20 overflow-hidden text-ellipsis'>{items.name}</p>
+                    <input type="checkbox"  className="checkbox" value={items.id} onChange={handleCheckboxChange} />
+                </label>
+                )}
 
-                <label className="label cursor-pointer flex flex-col">
-                    <img src={bucket} alt="" className='label-text w-14' />
-                    <p>Name</p>
-                    <input type="checkbox"  className="checkbox" />
-                </label>
-                <label className="label cursor-pointer flex flex-col">
-                    <img src={bucket} alt="" className='label-text w-14' />
-                    <p>Name</p>
-                    <input type="checkbox"  className="checkbox" />
-                </label>
-                <label className="label cursor-pointer flex flex-col">
-                    <img src={bucket} alt="" className='label-text w-14' />
-                    <p>Name</p>
-                    <input type="checkbox"  className="checkbox" />
-                </label>
             </div>
 
         </div>

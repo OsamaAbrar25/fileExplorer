@@ -1,16 +1,33 @@
 import './App.css';
 import Home from './pages/Home';
 import Files from './pages/Files';
+import History from './pages/History';
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+  Routes,
+  Link
+} from "react-router-dom";
 
 function App() {
   return (
     <div>
-      <div className="tabs flex justify-center">
-              <a className="tab tab-lifted tab-active">Explorer</a>
-              <a className="tab tab-lifted">History</a>
-      </div>
-      <Home/>
+      <BrowserRouter>
+      <Routes>
+        <Route path='/'>
+          <Route index element={<Home/>} />
+          <Route path="explorer" element={<Home/>} />
+            {/* <Route exact path="history" element={<Page2 />} /> */}
+          <Route path="history" element={<History/>} />
+        </Route>
+      </Routes>
+      </BrowserRouter>
+      
+      {/* <Home/> */}
       {/* <Files/> */}
+      {/* <History/> */}
     </div>
   );
 }

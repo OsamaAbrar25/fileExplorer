@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 // import markReducer from './markSlice'
-// import { explorerApi } from '../services/explorerApi'
+import { convinApi } from '../services/convinApi'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 
 export const store = configureStore({
     reducer: {
-        [explorerApi.reducerPath]: explorerApi.reducer,
-        mark: markReducer
+        [convinApi.reducerPath]: convinApi.reducer,
+        // mark: markReducer
     },
 
     middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(explorerApi.middleware),
+    getDefaultMiddleware().concat(convinApi.middleware),
 })
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

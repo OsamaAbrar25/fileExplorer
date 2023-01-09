@@ -4,13 +4,12 @@ import fileimage from '../img/video.png'
 const Files = () => {
   return (
     <div className='w-screen h-screen flex'>
-          <div className='border-2 border-stone-600 rounded-md p-5 h-max w-max flex flex-col m-10'>
-              <div className='p-5'>Create a bucket</div>
-              <div className='p-5'>Create a bucket</div>
-              <div className='p-5'>Create a bucket</div>
-              <div className='p-5'>Create a bucket</div>
 
-          </div>
+          <ul className="menu bg-base-100 w-56 p-2 rounded-box border-2">
+            <li><a>Create a file</a></li>
+            <li><a>Delete</a></li>
+            <li><a>Move</a></li>
+          </ul>
 
           <div className="form-control flex flex-row gap-20 flex-wrap m-10 h-max">
 
