@@ -55,6 +55,14 @@ export const convinApi = createApi({
       }),
       invalidatesTags: ['Item']
     }),
+    updateFile: builder.mutation({
+      query: (file) => ({
+          url: `files/${file.id}`,
+          method: 'PATCH',
+          body: file,
+      }),
+      invalidatesTags: ['Item']
+    }),
 
   }),
 })
@@ -69,4 +77,5 @@ export const {
   useGetFileQuery,
   useAddFileMutation,
   useDeleteFileMutation,
+  useUpdateFileMutation,
 } = convinApi;

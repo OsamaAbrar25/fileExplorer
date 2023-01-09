@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import fileimage from '../img/video.png'
-import { useAddFileMutation, useDeleteFileMutation, useGetFileQuery } from '../services/convinApi';
+import { useAddFileMutation, useDeleteFileMutation, useGetBucketQuery, useGetFileQuery, useUpdateFileMutation } from '../services/convinApi';
 import pen from '../img/pencil-icon.png'
 import { useParams } from 'react-router-dom';
 
@@ -10,15 +10,19 @@ const Files = () => {
 
   const params = useParams();
   const { data, error, isLoading } = useGetFileQuery(params.id);
+  const bucket = useGetBucketQuery();
   const [addFile] = useAddFileMutation();
   const [deleteFile] = useDeleteFileMutation();
+  const [updateFile] = useUpdateFileMutation();
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenMove, setIsOpenMove] = useState(false);
   const [checkedData, setCheckedData] = useState([]);
 
   let inputData = [];
 
-
+  console.log(checkedData);
 
   const handleCreateFile = () => {
       setIsOpen(!isOpen);
@@ -57,6 +61,13 @@ const Files = () => {
 
   }
 
+  function handleMove(id2) {
+      // updateFile({bucket: id});
+      console.log(id2);
+      checkedData?.map((id) => updateFile({id: id, bucket: id2}));
+      setIsOpenMove(!isOpenMove);
+  }
+
   return (
     <div className='w-screen h-screen'>
           <Navbar/>
@@ -72,7 +83,13 @@ const Files = () => {
                   </>
                 }
                 <li onClick={handleDeleteFile}><a>Delete</a></li>
-                <li><a>Move</a></li>
+                <li onClick={()=>setIsOpenMove(!isOpenMove)}><a>Move</a></li>
+                {isOpenMove && bucket.data && bucket.data?.map(items=> 
+                  <div key={items.id} className='flex flex-col p-2'>
+                  <p className='p-2 pl-4 hover:bg-purple-100 rounded-lg' onClick={()=>handleMove(items.id)}>{items.name}</p>
+                </div>
+                )}
+                
               </ul>
 
               <div className="form-control flex flex-row gap-20 flex-wrap m-10">

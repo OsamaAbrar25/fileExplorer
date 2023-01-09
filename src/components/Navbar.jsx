@@ -6,9 +6,9 @@ const Navbar = () => {
   return (
     <div>
         <div className="tabs flex justify-center">
-              <Link to='../../explorer' className={`tab tab-lg tab-lifted ${location.pathname==='/explorer'?'tab-active':''}`}>Explorer</Link>
+              <Link to='../../explorer' className={`tab tab-lg tab-lifted ${location.pathname!=='/history'?'tab-active':''}`}>Explorer</Link>
               <Link to='../../history' className={`tab tab-lg tab-lifted ${location.pathname==='/history'?'tab-active':''}`}>History</Link>
-      </div>
+        </div>
     </div>
   )
 }
