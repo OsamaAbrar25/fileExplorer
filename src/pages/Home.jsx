@@ -89,12 +89,7 @@ const Home = () => {
               <button className="btn btn-primary" onClick={handleSubmitBucket}>Click to create</button>
               </>
               }
-              <li onClick={handleDeleteBucket}><a>Delete</a></li>
-              <li className="menu-title">
-                <span>File</span>
-              </li>
-              <li><a>Create</a></li>
-              <li><a>Delete</a></li>
+              <li onClick={handleDeleteBucket}><a>Delete</a></li>  
             </ul>
 
             <div className="form-control flex flex-row gap-20 flex-wrap m-10">
