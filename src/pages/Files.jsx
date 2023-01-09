@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import fileimage from '../img/video.png'
-import { useAddFileMutation, useDeleteFileMutation, useGetBucketQuery, useGetFileQuery, useUpdateFileMutation } from '../services/convinApi';
+import { useAddFileMutation, useAddHistoryMutation, useDeleteFileMutation, useGetBucketQuery, useGetFileQuery, useUpdateFileMutation } from '../services/convinApi';
 import pen from '../img/pencil-icon.png'
 import { useParams } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ const Files = () => {
   const [addFile] = useAddFileMutation();
   const [deleteFile] = useDeleteFileMutation();
   const [updateFile] = useUpdateFileMutation();
+  const [addHistory] = useAddHistoryMutation();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
@@ -21,8 +22,6 @@ const Files = () => {
   const [checkedData, setCheckedData] = useState([]);
 
   let inputData = [];
-
-  console.log(checkedData);
 
   const handleCreateFile = () => {
       setIsOpen(!isOpen);
@@ -34,8 +33,12 @@ const Files = () => {
 
   }
 
-  const handleFile = () => {
-    
+  function handleFile(items) {
+    let timestamp2 = new Date().toTimeString();
+    console.log({fileId: items.id, name: `${items.name}`, link: `${items.link}`, timestamp: timestamp2});
+    if(items){
+    addHistory({fileId: items.id, name: `${items.name}`, link: `${items.link}`, timestamp: timestamp2});
+    }
   }
 
   const handleEdit = () => {
@@ -95,7 +98,7 @@ const Files = () => {
               <div className="form-control flex flex-row gap-20 flex-wrap m-10">
                 {data && data?.map(items => 
                 <label key={items.id} className="label cursor-pointer flex flex-col">
-                    <img src={fileimage} alt="" className='label-text w-14' id={items.id} onClick={handleFile} />
+                    <img src={fileimage} alt="" className='label-text w-14' id={items.id} onClick={() => handleFile(items)} />
                     <p className='w-20 overflow-hidden text-ellipsis text-center'>{items.name}</p>
                     <button className="btn-xs btn-accent rounded-md m-2" id={items.id} onClick={handleEdit}>
                       <img src={pen} className='h-3 w-3'/>

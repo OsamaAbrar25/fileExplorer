@@ -64,6 +64,21 @@ export const convinApi = createApi({
       invalidatesTags: ['Item']
     }),
 
+    //HISTORY
+    addHistory: builder.mutation({
+      query: (history) => ({
+          url: `history`,
+          method: 'POST',
+          body: history,
+      }),
+      invalidatesTags: ['Item']
+    }),
+    getHistory: builder.query({
+      query: () => `history`,
+      // transformResponse: res => res.sort((a, b) => b.id - a.id),
+      providesTags: ['Item']
+    }),
+
   }),
 })
 
@@ -78,4 +93,6 @@ export const {
   useAddFileMutation,
   useDeleteFileMutation,
   useUpdateFileMutation,
+  useAddHistoryMutation,
+  useGetHistoryQuery,
 } = convinApi;
