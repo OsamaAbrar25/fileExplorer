@@ -3,27 +3,31 @@ import Navbar from '../components/Navbar'
 import fileimage from '../img/video.png'
 import { useAddFileMutation, useDeleteFileMutation, useGetFileQuery } from '../services/convinApi';
 import pen from '../img/pencil-icon.png'
+import { useParams } from 'react-router-dom';
 
 
 const Files = () => {
 
-  const { data, error, isLoading } = useGetFileQuery();
+  const params = useParams();
+  const { data, error, isLoading } = useGetFileQuery(params.id);
   const [addFile] = useAddFileMutation();
   const [deleteFile] = useDeleteFileMutation();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [checkedData, setCheckedData] = useState([]);
+
+  let inputData = [];
+
 
 
   const handleCreateFile = () => {
       setIsOpen(!isOpen);
   }
 
-  const handleChange = () => {
-    
-  }
-
   const handleSubmitFile = () => {
-    
+    addFile({name: `${inputData[0]}`,bucket: params.id, link: `${inputData[1]}`});
+    setIsOpen(!isOpen);
+
   }
 
   const handleFile = () => {
@@ -38,8 +42,19 @@ const Files = () => {
     
   }
 
-  const handleCheckboxChange = () => {
-    
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    if(checked) {
+      setCheckedData([...checkedData, value]);
+    } else {
+      setCheckedData(checkedData.filter((e) => e !== value));
+    }
+    console.log(checkedData);
+  }
+
+  const handleDeleteFile = () => {
+    checkedData?.map((id) => deleteFile({id}));
+
   }
 
   return (
@@ -51,12 +66,12 @@ const Files = () => {
                 <li onClick={handleCreateFile}><a>Create a file</a></li>
                 {isOpen &&
                   <>
-                    <input type="text" placeholder="Enter file name" onChange={handleChange} className="input input-bordered input-primary w-full max-w-xs my-2" />
-                    <input type="text" placeholder="Enter file link" onChange={handleChange} className="input input-bordered input-primary w-full max-w-xs my-2" />
+                    <input type="text" placeholder="Enter file name" onChange={(e)=> inputData[0] = e.target.value} className="input input-bordered input-primary w-full max-w-xs my-2" />
+                    <input type="text" placeholder="Enter file link" onChange={(e)=> inputData[1] = e.target.value} className="input input-bordered input-primary w-full max-w-xs my-2" />
                     <button className="btn btn-primary" onClick={handleSubmitFile}>Click to create</button>
                   </>
                 }
-                <li><a>Delete</a></li>
+                <li onClick={handleDeleteFile}><a>Delete</a></li>
                 <li><a>Move</a></li>
               </ul>
 
@@ -64,7 +79,7 @@ const Files = () => {
                 {data && data?.map(items => 
                 <label key={items.id} className="label cursor-pointer flex flex-col">
                     <img src={fileimage} alt="" className='label-text w-14' id={items.id} onClick={handleFile} />
-                    <p className='w-20 overflow-hidden text-ellipsis'>{items.name}</p>
+                    <p className='w-20 overflow-hidden text-ellipsis text-center'>{items.name}</p>
                     <button className="btn-xs btn-accent rounded-md m-2" id={items.id} onClick={handleEdit}>
                       <img src={pen} className='h-3 w-3'/>
                     </button>

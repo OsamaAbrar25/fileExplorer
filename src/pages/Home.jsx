@@ -15,7 +15,7 @@ const Home = () => {
   const [updateBucket] = useUpdateBucketMutation();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(null);
   const [checkedData, setCheckedData] = useState([]);
   const navigate = useNavigate();
   let inputData;
@@ -23,13 +23,6 @@ const Home = () => {
   const handleCreateBucket = () => {
       // setInputData(event.target.value);
       setIsOpen(!isOpen);
-  }
-
-  const handleChange = (event) => {
-    inputData = event.target.value
-    console.log(inputData);
-
-
   }
 
   const handleSubmitBucket = () => {
@@ -54,14 +47,24 @@ const Home = () => {
 
   }
 
-  const handleEdit = (e) => {
-      console.log(e.target.id);
-      setIsOpenEdit(!isOpenEdit);
+  // const handleEdit = (e) => {
+  //     console.log(e.target.id);
+  //     setIsOpenEdit(e.target.id);
 
+  // }
+
+  function handleEdit(id) {
+    isOpenEdit===id?setIsOpenEdit(null):  
+    setIsOpenEdit(id);
+        
   }
 
-  const handleEditChange = () => {
-
+  function handleEditChange(id, e) {
+    let text = e.target.value;
+    if(e.code === "Enter" || e.code === "NumpadEnter") {
+      updateBucket({name: `${text}`, id:id});
+      setIsOpenEdit(null);
+    }
   }
 
   const handleBucket = (e) => {
@@ -82,7 +85,7 @@ const Home = () => {
               <li onClick={handleCreateBucket}><a>Create</a></li>
               { isOpen &&
               <>
-              <input type="text" placeholder="Enter bucket name" onChange={handleChange} className="input input-bordered input-primary w-full max-w-xs my-2" />
+              <input type="text" placeholder="Enter bucket name" onChange={(e) => inputData = e.target.value} className="input input-bordered input-primary w-full max-w-xs my-2" />
               <button className="btn btn-primary" onClick={handleSubmitBucket}>Click to create</button>
               </>
               }
@@ -98,13 +101,13 @@ const Home = () => {
                 {data && data?.map(items => 
                 <label key={items.id} className="label cursor-pointer flex flex-col">
                     <img src={bucket} alt="" className='label-text w-14' id={items.id} onClick={handleBucket} />
-                    <p className='w-20 overflow-hidden text-ellipsis'>{items.name}</p>
-                    <button className="btn-xs btn-accent rounded-md m-2" id={items.id} onClick={handleEdit}>
+                    <p className='w-20 overflow-hidden text-ellipsis text-center'>{items.name}</p>
+                    <button className="btn-xs btn-accent rounded-md m-2" id={items.id} onClick={() => handleEdit(items.id)}>
                       <img src={pen} className='h-3 w-3'/>
                     </button>
-                    {isOpenEdit &&
+                    {isOpenEdit===items.id &&
                       <>
-                        <input type="text" placeholder="Enter bucket name" onChange={handleEditChange} className="input input-bordered input-primary w-full max-w-xs my-2" />
+                        <input type="text" placeholder="Enter bucket name" onKeyDown={(e) => handleEditChange(items.id, e)} className="input input-bordered input-primary w-full max-w-xs my-2" />
                         {/* <button className="btn btn-primary" onClick={handleSubmitBucket}>Click to create</button> */}
                       </>
                     }

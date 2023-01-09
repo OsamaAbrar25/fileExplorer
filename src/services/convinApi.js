@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // Define a service using a base URL and expected endpoints
 export const convinApi = createApi({
   reducerPath: 'convinApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3004/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://stormy-vivid-juravenator.glitch.me' }),
   tagTypes: ['Item'],
   endpoints: (builder) => ({
     getBucket: builder.query({
@@ -34,8 +34,9 @@ export const convinApi = createApi({
       }),
       invalidatesTags: ['Item']
     }),
+    //FILE
     getFile: builder.query({
-      query: (name) => `files`,
+      query: (id) => `files?bucket=${id}`,
       providesTags: ['Item']
     }),
     addFile: builder.mutation({
