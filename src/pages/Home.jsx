@@ -1,18 +1,23 @@
 import React from 'react'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import bucket from '../img/bucket.png'
-import { useAddBucketMutation, useDeleteBucketMutation, useGetBucketQuery } from '../services/convinApi'
+import pen from '../img/pencil-icon.png'
+
+import { useAddBucketMutation, useDeleteBucketMutation, useGetBucketQuery, useUpdateBucketMutation } from '../services/convinApi'
 
 const Home = () => {
 
   const { data, error, isLoading } = useGetBucketQuery();
   const [addBucket] = useAddBucketMutation();
   const [deleteBucket] = useDeleteBucketMutation();
-
+  const [updateBucket] = useUpdateBucketMutation();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [checkedData, setCheckedData] = useState([]);
+  const navigate = useNavigate();
   let inputData;
 
   const handleCreateBucket = () => {
@@ -49,6 +54,20 @@ const Home = () => {
 
   }
 
+  const handleEdit = (e) => {
+      console.log(e.target.id);
+      setIsOpenEdit(!isOpenEdit);
+
+  }
+
+  const handleEditChange = () => {
+
+  }
+
+  const handleBucket = (e) => {
+    navigate(`bucket/${e.target.id}`);
+  }
+
   return (
     <div className='w-screen h-screen'>
         <Navbar/>
@@ -78,8 +97,17 @@ const Home = () => {
             <div className="form-control flex flex-row gap-20 flex-wrap m-10">
                 {data && data?.map(items => 
                 <label key={items.id} className="label cursor-pointer flex flex-col">
-                    <img src={bucket} alt="" className='label-text w-14' />
+                    <img src={bucket} alt="" className='label-text w-14' id={items.id} onClick={handleBucket} />
                     <p className='w-20 overflow-hidden text-ellipsis'>{items.name}</p>
+                    <button className="btn-xs btn-accent rounded-md m-2" id={items.id} onClick={handleEdit}>
+                      <img src={pen} className='h-3 w-3'/>
+                    </button>
+                    {isOpenEdit &&
+                      <>
+                        <input type="text" placeholder="Enter bucket name" onChange={handleEditChange} className="input input-bordered input-primary w-full max-w-xs my-2" />
+                        {/* <button className="btn btn-primary" onClick={handleSubmitBucket}>Click to create</button> */}
+                      </>
+                    }
                     <input type="checkbox"  className="checkbox" value={items.id} onChange={handleCheckboxChange} />
                 </label>
                 )}

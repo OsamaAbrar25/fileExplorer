@@ -21,6 +21,9 @@ function App() {
           <Route path="explorer" element={<Home/>} />
             {/* <Route exact path="history" element={<Page2 />} /> */}
           <Route path="history" element={<History/>} />
+          <Route path='bucket'>
+              <Route path=':id' element={<Files/>}/>
+          </Route>
         </Route>
       </Routes>
       </BrowserRouter>

@@ -11,10 +11,10 @@ export const convinApi = createApi({
       providesTags: ['Item']
     }),
     addBucket: builder.mutation({
-        query: (add) => ({
+        query: (bucket) => ({
             url: `buckets`,
             method: 'POST',
-            body: add,
+            body: bucket,
         }),
         invalidatesTags: ['Item']
     }),
@@ -25,11 +25,47 @@ export const convinApi = createApi({
           body: id,
       }),
       invalidatesTags: ['Item']
-  }),
+    }),
+    updateBucket: builder.mutation({
+      query: (bucket) => ({
+          url: `buckets/${bucket.id}`,
+          method: 'PATCH',
+          body: bucket,
+      }),
+      invalidatesTags: ['Item']
+    }),
+    getFile: builder.query({
+      query: (name) => `files`,
+      providesTags: ['Item']
+    }),
+    addFile: builder.mutation({
+      query: (file) => ({
+          url: `files`,
+          method: 'POST',
+          body: file,
+      }),
+      invalidatesTags: ['Item']
+    }),
+    deleteFile: builder.mutation({
+      query: ({id}) => ({
+          url: `files/${id}`,
+          method: 'DELETE',
+          body: id,
+      }),
+      invalidatesTags: ['Item']
+    }),
 
   }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetBucketQuery, useAddBucketMutation, useDeleteBucketMutation } = convinApi;
+export const {
+  useGetBucketQuery,
+  useAddBucketMutation,
+  useDeleteBucketMutation,
+  useUpdateBucketMutation,
+  useGetFileQuery,
+  useAddFileMutation,
+  useDeleteFileMutation,
+} = convinApi;
