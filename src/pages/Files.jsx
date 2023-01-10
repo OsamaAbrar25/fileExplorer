@@ -53,7 +53,7 @@ const Files = () => {
 
   function handleEditChange(id, e) {
     let text = e.target.value;
-    if (e.code === "Enter" || e.code === "NumpadEnter") {
+    if (e.code === "Enter" || e.code === "NumpadEnter" || e.keyCode === 13) {
       updateFile({ name: `${text}`, id: id });
       setIsOpenEdit(null);
     }
