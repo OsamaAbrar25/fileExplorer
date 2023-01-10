@@ -5,6 +5,7 @@ import { useAddFileMutation, useAddHistoryMutation, useDeleteFileMutation, useGe
 import pen from '../img/pencil-icon.png'
 import { useParams } from 'react-router-dom';
 import ReactPlayer from 'react-player'
+import Loader from '../components/Loader';
 
 
 const Files = () => {
@@ -18,7 +19,7 @@ const Files = () => {
   const [addHistory] = useAddHistoryMutation();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(null);
   const [isOpenMove, setIsOpenMove] = useState(false);
   const [checkedData, setCheckedData] = useState([]);
   const [url, setUrl] = useState('');
@@ -44,12 +45,17 @@ const Files = () => {
     }
   }
 
-  const handleEdit = () => {
-    
+  function handleEdit(id) {
+    isOpenEdit === id ? setIsOpenEdit(null) :
+      setIsOpenEdit(id);
   }
 
-  const handleEditChange = () => {
-    
+  function handleEditChange(id, e) {
+    let text = e.target.value;
+    if (e.code === "Enter" || e.code === "NumpadEnter") {
+      updateFile({ name: `${text}`, id: id });
+      setIsOpenEdit(null);
+    }
   }
 
   const handleCheckboxChange = (e) => {
@@ -98,19 +104,18 @@ const Files = () => {
                 
               </ul>
 
-              <div className="form-control flex flex-row gap-20 flex-wrap m-10">
+              <div className="form-control flex flex-row gap-20 flex-wrap bg-slate-100 h-full w-full p-10">
+                {isLoading && <div className='flex min-w-full min-h-full justify-center items-center '><Loader/></div>}
                 {data && data?.map(items => 
-                <label htmlFor="my-modal-3" key={items.id} className="label cursor-pointer flex flex-col">
+                <label htmlFor="my-modal-3" key={items.id} className="label cursor-pointer flex flex-col h-max w-max">
                     <img src={fileimage} alt="" className='label-text w-14' id={items.id} onClick={() => handleFile(items)} />
                     <p className='w-20 overflow-hidden text-ellipsis text-center'>{items.name}</p>
-                    <button className="btn-xs btn-accent rounded-md m-2" id={items.id} onClick={handleEdit}>
+                    <button className="btn-xs btn-accent rounded-md m-2" id={items.id} onClick={()=> handleEdit(items.id)}>
                       <img src={pen} className='h-3 w-3'/>
                     </button>
-                    {isOpenEdit &&
-                      <>
-                        <input type="text" placeholder="Enter bucket name" onChange={handleEditChange} className="input input-bordered input-primary w-full max-w-xs my-2" />
-                        {/* <button className="btn btn-primary" onClick={handleSubmitBucket}>Click to create</button> */}
-                      </>
+
+                    {isOpenEdit === items.id &&
+                        <input type="text" placeholder="Enter bucket name" onKeyDown={(e) => handleEditChange(items.id, e)} className="input input-bordered input-primary w-full max-w-xs my-2" />
                     }
                     <input type="checkbox"  className="checkbox" value={items.id} onChange={handleCheckboxChange} />
 

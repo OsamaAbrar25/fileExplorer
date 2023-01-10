@@ -2,17 +2,19 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import { useGetHistoryQuery } from '../services/convinApi';
 import moment from 'moment';
+import Loader from '../components/Loader';
 
 const History = () => {
 
   const { data, error, isLoading } = useGetHistoryQuery();
 
   return (
-    <div>
+    <div className='h-screen w-screen'>
         <Navbar/>
+        {isLoading && <div className='flex min-w-full min-h-full justify-center items-center absolute top-0 z-50 '><Loader/></div>}
 
         <div className="overflow-x-auto">
-            <table className="table w-full">
+            <table className="table min-w-full min-h-full">
               
               <thead>
                 <tr>
@@ -23,6 +25,7 @@ const History = () => {
                 </tr>
               </thead>
               <tbody>
+                
                 {data && data?.map(
                   (items) => 
                   <tr key={items.id}>
