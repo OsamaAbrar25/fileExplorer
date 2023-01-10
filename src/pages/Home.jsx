@@ -14,12 +14,13 @@ const Home = () => {
   const [addBucket] = useAddBucketMutation();
   const [deleteBucket] = useDeleteBucketMutation();
   const [updateBucket] = useUpdateBucketMutation();
-
+  const [rename, setRename] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(null);
   const [checkedData, setCheckedData] = useState([]);
   const navigate = useNavigate();
   let inputData;
+  let text;
 
   const handleCreateBucket = () => {
     // setInputData(event.target.value);
@@ -47,22 +48,28 @@ const Home = () => {
     console.log(checkedData);
 
   }
-  console.log(isLoading);
+  
 
   function handleEdit(id) {
-    isOpenEdit === id ? setIsOpenEdit(null) :
-      setIsOpenEdit(id);
+    isOpenEdit === id ? setIsOpenEdit(null) : setIsOpenEdit(id);
 
   }
+//
 
   function handleEditChange(id, e) {
-    let text = e.target.value;
+    setRename(e.target.value);
     if (e.code === "Enter" || e.code === "NumpadEnter") {
-      updateBucket({ name: `${text}`, id: id });
+      updateBucket({ name: e.target.value, id: id });
       setIsOpenEdit(null);
     }
   }
 
+  function handleEditClick(id) {
+      updateBucket({ name: `${text}`, id: id });
+      setIsOpenEdit(null);
+    
+  }
+//
   const handleBucket = (e) => {
     navigate(`bucket/${e.target.id}`);
   }
@@ -100,7 +107,10 @@ const Home = () => {
                 <img src={pen} className='h-3 w-3' />
               </button>
               {isOpenEdit === items.id &&
-                  <input type="text" placeholder="Enter bucket name" onKeyDown={(e) => handleEditChange(items.id, e)} className="input input-bordered input-primary w-full max-w-xs my-2" />
+                  <>
+                  <input type="text" placeholder="Enter bucket name" onChange={(e) => text = e.target.value} onKeyDown={(e) => handleEditChange(items.id, e)} className="input input-bordered input-primary w-full max-w-xs my-2" />
+                  <button className="btn btn-primary mb-2" onClick={(e) => handleEditClick(items.id)}>RENAME</button>
+                  </>
               }
               <input type="checkbox" className="checkbox checkbox-primary" value={items.id} onChange={handleCheckboxChange} />
             </label>
