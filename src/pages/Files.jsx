@@ -26,6 +26,7 @@ const Files = () => {
   const [url, setUrl] = useState('');
 
   let inputData = [];
+  let text;
 
   const handleCreateFile = () => {
       setIsOpen(!isOpen);
@@ -75,11 +76,16 @@ const Files = () => {
   }
 
   function handleMove(id2) {
-      // updateFile({bucket: id});
       console.log(id2);
       checkedData?.map((id) => updateFile({id: id, bucket: id2}));
       setIsOpenMove(!isOpenMove);
   }
+
+  function handleEditClick(id) {
+    updateFile({ name: `${text}`, id: id });
+    // setIsOpenEdit(null);
+  
+}
 
   return (
     <div className='w-screen h-screen'>
@@ -121,7 +127,10 @@ const Files = () => {
                     </button>
 
                     {isOpenEdit === items.id &&
-                        <input type="text" placeholder="Enter file name" onKeyDown={(e) => handleEditChange(items.id, e)} className="input input-bordered input-primary w-full max-w-xs my-2" />
+                        <>
+                        <input type="text" placeholder="Enter file name" onChange={(e) => text = e.target.value} onKeyDown={(e) => handleEditChange(items.id, e)} className="input input-bordered input-primary w-full max-w-xs my-2" />
+                        <button className="btn btn-primary mb-2" onClick={(e) => handleEditClick(items.id)}>RENAME</button>
+                        </>
                     }
                     <input type="checkbox"  className="checkbox checkbox-primary" value={items.id} onChange={handleCheckboxChange} />
 
