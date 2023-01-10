@@ -95,8 +95,13 @@ const Files = () => {
                     <button className="btn btn-primary" onClick={handleSubmitFile}>Click to create</button>
                   </>
                 }
+                <div className="tooltip tooltip-right" data-tip="Please select files you wish to delete">
                 <li onClick={handleDeleteFile}><a>Delete</a></li>
-                <li onClick={()=>setIsOpenMove(!isOpenMove)}><a>Move</a></li>
+                </div>
+
+                <div className="tooltip tooltip-right" data-tip="Please select files you wish to move">
+                <li onClick={()=>setIsOpenMove(!isOpenMove)}><a>Move to</a></li>
+                </div>
                 {isOpenMove && bucket.data && bucket.data?.map(items=> 
                   <div key={items.id} className='flex flex-col p-2'>
                   <p className='p-2 pl-4 hover:bg-purple-100 rounded-lg flex gap-2' onClick={()=>handleMove(items.id)}><img src={bucketpng} width="25px"/>{items.name}</p>

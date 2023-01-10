@@ -85,7 +85,9 @@ const Home = () => {
               <button className="btn btn-primary" onClick={handleSubmitBucket}>Click to create</button>
             </>
           }
+          <div className="tooltip tooltip-right" data-tip="Please select buckets you wish to delete">
           <li onClick={handleDeleteBucket}><a>Delete</a></li>
+          </div>
         </ul>
 
         <div className="form-control flex flex-row gap-20 flex-wrap bg-slate-100 h-full w-full p-10">
