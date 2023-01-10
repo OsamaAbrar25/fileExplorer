@@ -123,7 +123,7 @@ const Files = () => {
                     {isOpenEdit === items.id &&
                         <input type="text" placeholder="Enter bucket name" onKeyDown={(e) => handleEditChange(items.id, e)} className="input input-bordered input-primary w-full max-w-xs my-2" />
                     }
-                    <input type="checkbox"  className="checkbox" value={items.id} onChange={handleCheckboxChange} />
+                    <input type="checkbox"  className="checkbox checkbox-primary" value={items.id} onChange={handleCheckboxChange} />
 
                     {/* Iframe */}
                     <input type="checkbox" id="my-modal-3" className="modal-toggle" />
