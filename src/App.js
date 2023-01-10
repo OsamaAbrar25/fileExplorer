@@ -6,10 +6,7 @@ import {
   BrowserRouter,
   createBrowserRouter,
   Route,
-  Redirect,
-  RouterProvider,
   Routes,
-  Link,
   Navigate
 } from "react-router-dom";
 
@@ -28,10 +25,6 @@ function App() {
         </Route>
       </Routes>
       </BrowserRouter>
-      
-      {/* <Home/> */}
-      {/* <Files/> */}
-      {/* <History/> */}
     </div>
   );
 }

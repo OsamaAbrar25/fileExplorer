@@ -48,11 +48,6 @@ const Home = () => {
 
   }
   console.log(isLoading);
-  // const handleEdit = (e) => {
-  //     console.log(e.target.id);
-  //     setIsOpenEdit(e.target.id);
-
-  // }
 
   function handleEdit(id) {
     isOpenEdit === id ? setIsOpenEdit(null) :
