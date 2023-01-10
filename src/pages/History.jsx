@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import { useGetHistoryQuery } from '../services/convinApi';
+import moment from 'moment';
 
 const History = () => {
 
@@ -28,7 +29,7 @@ const History = () => {
                     <th>{items.id}</th>
                     <td>{items.name}</td>
                     <td>{items.link}</td>
-                    <td>{items.timestamp}</td>
+                    <td>{moment(items.timestamp).format('MMMM Do YYYY, h:mm:ss a')}</td>
                  </tr>
                 )}
                 

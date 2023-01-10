@@ -4,6 +4,7 @@ import fileimage from '../img/video.png'
 import { useAddFileMutation, useAddHistoryMutation, useDeleteFileMutation, useGetBucketQuery, useGetFileQuery, useUpdateFileMutation } from '../services/convinApi';
 import pen from '../img/pencil-icon.png'
 import { useParams } from 'react-router-dom';
+import ReactPlayer from 'react-player'
 
 
 const Files = () => {
@@ -34,7 +35,7 @@ const Files = () => {
   }
 
   function handleFile(items) {
-    let timestamp2 = new Date().toTimeString();
+    let timestamp2 = new Date().getTime();
     console.log({fileId: items.id, name: `${items.name}`, link: `${items.link}`, timestamp: timestamp2});
     if(items){
     addHistory({fileId: items.id, name: `${items.name}`, link: `${items.link}`, timestamp: timestamp2});
@@ -97,7 +98,7 @@ const Files = () => {
 
               <div className="form-control flex flex-row gap-20 flex-wrap m-10">
                 {data && data?.map(items => 
-                <label key={items.id} className="label cursor-pointer flex flex-col">
+                <label htmlFor="my-modal-3" key={items.id} className="label cursor-pointer flex flex-col">
                     <img src={fileimage} alt="" className='label-text w-14' id={items.id} onClick={() => handleFile(items)} />
                     <p className='w-20 overflow-hidden text-ellipsis text-center'>{items.name}</p>
                     <button className="btn-xs btn-accent rounded-md m-2" id={items.id} onClick={handleEdit}>
@@ -110,23 +111,23 @@ const Files = () => {
                       </>
                     }
                     <input type="checkbox"  className="checkbox" value={items.id} onChange={handleCheckboxChange} />
+
+                    {/* Iframe */}
+                    <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+                    <div className="modal">
+                      <div className="modal-box relative">
+                        <label htmlFor="my-modal-3" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                        {/* <h3 className="text-lg font-bold">Congratulations random Internet user!</h3> */}
+                        {/* <p className="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p> */}
+                        {/* <iframe width="400" height="200" src={items.link} title="yo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
+                        <ReactPlayer url={items.link}/>
+                        {console.log(items.link)}
+                      </div>
+                    </div>
                 </label>
                 )}
 
               </div>
-
-              {/* The button to open modal */}
-              {/* <label htmlFor="my-modal-3" className="btn">open modal</label> */}
-
-              {/* Put this part before </body> tag */}
-              {/* <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-              <div className="modal">
-                <div className="modal-box relative">
-                  <label htmlFor="my-modal-3" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                  <h3 className="text-lg font-bold">Congratulations random Internet user!</h3>
-                  <p className="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
-                </div>
-              </div> */}
 
             </div>
 

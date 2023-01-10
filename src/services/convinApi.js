@@ -74,12 +74,20 @@ export const convinApi = createApi({
       invalidatesTags: ['Item']
     }),
     getHistory: builder.query({
-      query: () => `history`,
+      query: () => `history?_sort=timestamp&_order=desc`,
       // transformResponse: res => res.sort((a, b) => b.id - a.id),
       providesTags: ['Item']
     }),
+    deleteHistory: builder.mutation({
+      query: ({id}) => ({
+          url: `history/${id}`,
+          method: 'DELETE',
+          body: id,
+      }),
+      invalidatesTags: ['Item']
+    }),
 
-  }),
+    }),
 })
 
 // Export hooks for usage in functional components, which are
@@ -95,4 +103,5 @@ export const {
   useUpdateFileMutation,
   useAddHistoryMutation,
   useGetHistoryQuery,
+  useDeleteHistoryMutation,
 } = convinApi;
