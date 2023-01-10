@@ -6,9 +6,11 @@ import {
   BrowserRouter,
   createBrowserRouter,
   Route,
+  Redirect,
   RouterProvider,
   Routes,
-  Link
+  Link,
+  Navigate
 } from "react-router-dom";
 
 function App() {
@@ -17,9 +19,8 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path='/'>
-          <Route index element={<Home/>} />
+          <Route index element={<Navigate to='explorer'/>} />
           <Route path="explorer" element={<Home/>} />
-            {/* <Route exact path="history" element={<Page2 />} /> */}
           <Route path="history" element={<History/>} />
           <Route path='explorer/bucket'>
               <Route path=':id' element={<Files/>}/>
