@@ -21,6 +21,7 @@ const Files = () => {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [isOpenMove, setIsOpenMove] = useState(false);
   const [checkedData, setCheckedData] = useState([]);
+  const [url, setUrl] = useState('');
 
   let inputData = [];
 
@@ -39,6 +40,7 @@ const Files = () => {
     console.log({fileId: items.id, name: `${items.name}`, link: `${items.link}`, timestamp: timestamp2});
     if(items){
     addHistory({fileId: items.id, name: `${items.name}`, link: `${items.link}`, timestamp: timestamp2});
+    setUrl(items.link)
     }
   }
 
@@ -120,8 +122,7 @@ const Files = () => {
                         {/* <h3 className="text-lg font-bold">Congratulations random Internet user!</h3> */}
                         {/* <p className="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p> */}
                         {/* <iframe width="400" height="200" src={items.link} title="yo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
-                        <ReactPlayer url={items.link}/>
-                        {console.log(items.link)}
+                        <ReactPlayer url={url} playing='true' width='400'/>
                       </div>
                     </div>
                 </label>
