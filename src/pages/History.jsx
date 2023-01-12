@@ -11,9 +11,9 @@ const History = () => {
   return (
     <div className='h-screen w-screen'>
         <Navbar/>
-        {isLoading && <div className='flex min-w-full min-h-full justify-center items-center absolute top-0 z-50 '><Loader/></div>}
 
         <div className="overflow-x-auto">
+        {isLoading && <div className='flex min-w-full min-h-full justify-center items-center absolute top-36'><Loader/></div>}
             <table className="table min-w-full min-h-full">
               
               <thead>
@@ -39,8 +39,8 @@ const History = () => {
                 
               </tbody>
             </table>
-</div>
-    </div>
+        </div>
+        </div>
   )
 }
 

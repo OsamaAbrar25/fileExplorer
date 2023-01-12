@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-// import markReducer from './markSlice'
 import { convinApi } from '../services/convinApi'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 
 export const store = configureStore({
     reducer: {
         [convinApi.reducerPath]: convinApi.reducer,
-        // mark: markReducer
     },
 
     middleware: (getDefaultMiddleware) =>
